@@ -1,0 +1,94 @@
+#back {
+    background-color: #5a6100;
+    margin: 10px;
+}
+
+span {
+    font-size: large;
+    font-weight: bold;
+}
+
+.profile-pic {
+    text-align: center;
+}
+
+#calendar {
+    font-family: Arial, sans-serif;
+    width: 95vw;
+    padding: 20px;
+    margin-right: 3px;
+    align-items: center;
+    border-top: 1px solid rgb(117, 101, 101);
+
+}
+
+.calendar-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.calendar-body .day-names {
+    display: flex;
+    background-color: #a19999;
+    padding: 10px 0;
+}
+
+.calendar-body .day-names div {
+    width: 14.28%;
+    text-align: center;
+}
+
+.calendar-body .dates {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.calendar-body .dates div {
+    width: 14.28%;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #eee; 
+    box-sizing: border-box; 
+    padding: 10px 0;
+    height: 15vh;
+    
+}
+
+.calendar-body .dates div:hover {
+    background-color: #f0f0f0;
+    border-color: #ddd;
+}
+
+.calendar-body .dates .today {
+    background-color: #ee7027;
+    color: white;
+    font-weight: bold;
+    
+}
+
+#logout {
+    display: flex;
+    width: 40vh;
+    padding: 10px;
+    margin: 10px;
+    background-color: #eeca84;
+    justify-content: center;
+    
+}
+
+p {
+    font-size: small;
+}
+
+.dropdown {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+  
+  

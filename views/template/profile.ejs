@@ -1,0 +1,137 @@
+<%- include("template/header") %>
+<div class="profileContent">
+    <div class="profileContainer">
+        <h2><%= username %></h2>
+        <button class="btn btn-primary" id="changeName" type="button" data-toggle="modal" data-target="#nameModal">Change Name</button>
+        <h3><%= email %></h3>
+        <button class="btn btn-primary" id="changeEmail" type="button" data-toggle="modal" data-target="#emailModal">Change Email</button>
+        <div class="profilePic">
+            <img src="<%= pfp %>" alt="Profile Picture">
+        </div>
+        <button class="btn btn-primary" id="changePic" type="button" data-toggle="modal" data-target="#pfpModal">Change Picture</button>
+
+        <div class="profileInfo"><h1>Profile</h1></div>
+        <div class="favGame"> 
+            <p><i class="bi bi-star"></i> Favourite Game: <%= favGame %></p>
+        </div>
+        <button class="btn btn-primary" id="changeFavGame" type="button" data-toggle="modal" data-target="#favGameModal">Edit</button>
+
+        <div class="bio">
+            <h3>Bio</h3>
+            <form id="bioForm" action="/bioSubmit" method="post">
+                <textarea name="bio" id="bioTextarea" rows="5" cols="50" maxlength="250"><%= bio %></textarea>
+                <button class="btn btn-primary" id="updateBioButton" type="submit" style="display: none;">Update Bio</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="nameModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Change Name</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h2>Current name: </h2>
+          <p style="font-size: 22px;"><%= username %></p>
+          <h2>New name: </h2>
+          <form id="usernameForm" action="/usernameSubmit" method="post">
+            <input name="username" id="usernameInput" type="text" placeholder="Username...">
+            <br>
+            <br>
+            <button class="btn btn-primary" id="usernameButton" type="submit">Update Username</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="emailModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Change Email</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h2>Current email: </h2>
+          <p style="font-size: 22px;"><%= email %></p>
+          <h2>New email: </h2>
+          <form id="emailForm" action="/emailSubmit" method="post">
+            <input name="email" id="emailInput" type="email" placeholder="JohnDoe@gmail.com">
+            <br>
+            <br>
+            <button class="btn btn-primary" id="emailButton" type="submit">Update Email</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="favGameModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Change Favourite Game</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h2>Current favourite game: </h2>
+          <p style="font-size: 22px;"><%= favGame %></p>
+          <h2>New favourite game: </h2>
+          <form id="favGameForm" action="/favGameSubmit" method="post">
+            <input name="favGame" id="favGameInput" type="text" placeholder="Game here...">
+            <br>
+            <br>
+            <button class="btn btn-primary" id="favGameButton" type="submit">Update Favourite Game</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="pfpModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Change Profile Picture</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h2>Upload profile picture: </h2>
+          <a class="defaultimg1" href="defaultSubmit?image=defaultcat"><img src="/images/defaultcat.jpg" style="height: 100px;"></a>
+          <a class="defaultimg1" href="defaultSubmit?image=defaultdog"><img src="/images/defaultdog.jpg" style="height: 100px;"></a>
+          <a class="defaultimg1" href="defaultSubmit?image=defaultflower"><img src="/images/defaultflower.jpg" style="height: 100px;"></a>
+          <br><br>
+          <form id="pfpForm" action="/pfpSubmit" method="post" enctype="multipart/form-data">
+            <input type="file" name="pfp" accept="image/*" required>
+            <br><br>
+            <button class="btn btn-primary" id="pfpButton" type="submit">Upload Photo</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="/js/profile.js"></script>
+<%- include("template/footer") %>

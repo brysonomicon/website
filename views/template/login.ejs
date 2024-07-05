@@ -1,0 +1,23 @@
+<%- include("template/header") %>
+<div id="login-container">
+    <form class="login-form" action="/loginSubmit" method="post">
+        <% if (typeof error !== 'undefined') { %>
+            <div class="alert alert-danger"><%= error %></div>
+        <% } %>
+        <div class="input-group">
+            <label for="email-phone" class="login-text">Email/Phone*</label>
+            <input type="text" id="email-phone" name="email" placeholder="Enter your email/phone">
+        </div>
+        <div class="input-group">
+            <label for="password" class="login-text">Password*</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password">
+        </div>
+        <p>Fields marked with an * indicate they are required.</p>
+        <button class="submit-button" type="submit">Login</button>
+        <a href="/api/password/requestReset" class="btn btn-link">Forgot your password?</a>
+        <a href="/auth/google" class="btn btn-primary" role="button">Sign in with Google</a>
+        <br>
+    </form>
+</div>
+<script src="/js/login.js"></script>
+<%- include("template/footer") %>

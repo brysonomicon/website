@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" name="viewport" content="width=devicewidth, initial-scale=1.0" />
+  <title>Golden Gaming</title>
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/chat.css" />
+  <link rel="stylesheet" href="/css/calendar.css" />
+  <link rel="stylesheet" href="/css/profile.css" />
+  <link rel="stylesheet" href="/css/games.css" />
+  <link rel="stylesheet" href="/css/overlay.css" />
+  <link rel="stylesheet" href="/css/sudokuStyle.css">
+  <link rel="stylesheet" href="fonts/Gilroy-ExtraBold.otf" type="font/otf">
+  <link rel="stylesheet" type="text/css" href="/css/chess.css">
+
+  <!-- bootsrap imports for modal popup functionality -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.6/dist/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+  
+</head>
+
+<body>
+  <header class="header" id="header">
+    <nav class="nav container">
+       <a href="#" class="nav__logo"><img src="/images/logo.png" id="logo" alt="Logo" width="100%" height="100%"></a>
+
+       <div class="nav__menu" id="nav-menu">
+          <ul class="nav__list">
+              <% for (var i = 0; i < navLinks.length; i++) { %>
+              <li class="nav__item"><a href="<%= locals.navLinks[i].link %>" class="nav__link
+                <% if (locals.navLinks[i].link == locals.currentUrl) { %>active<% } %>" aria-current="page">
+                <%= locals.navLinks[i].name %></a></li>
+              <% } %>
+          </ul>
+
+          <!-- Close button -->
+          <div class="nav__close" id="nav-close">
+             <i class="ri-close-line"></i>
+          </div>
+       </div>
+
+       <div class="nav__actions">
+
+          <!-- Login button -->
+          <a href="/profile"><i class="ri-user-line nav__login" id="login-btn"></i></a>
+
+          <i class="ri-settings-3-line nav__settings" id="settings-btn"></i>
+
+          <!-- Toggle button -->
+          <div class="nav__toggle" id="nav-toggle">
+             <i class="ri-menu-line"></i>
+          </div>
+       </div>
+    </nav>
+ </header>
+
+<!-- Settings Dropdown Menu -->
+<div id="settings-modal" class="settings-modal">
+  <div class="settings-modal-content">
+    <button onclick="setTheme('default')">Light Blue (Default)</button>
+    <button onclick="setTheme('option1')">Orange</button>
+    <button onclick="setTheme('option2')">Purple</button>
+    <button onclick="setTheme('option3')">Green</button>
+  </div>
+</div>
+<script src="/js/settings.js"></script>

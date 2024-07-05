@@ -1,0 +1,410 @@
+.profileContent {
+    padding: 1vw;
+    min-height: 70vh;
+    height: 60vh;
+    padding-bottom: none;
+}
+
+body {
+    background: #87CEEB;
+    background: radial-gradient(at center, #87CEEB, #FFFFFF);
+}
+
+.profileContainer {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(160, 160, 160, 0.47);
+    display: grid;
+    grid-template-rows: repeat(20, 5%);
+    grid-template-columns: repeat(20, 5%);
+    border: 2px solid white;
+    border-radius: 20px;
+    
+}
+
+.profileContainer h1 {
+    color: black;
+    font-size: 3.8vw;
+    font-weight: 600;
+    margin-top: 1%;
+}
+
+.profileContainer h2 {
+    background-color: rgb(255, 255, 255);
+    border-radius: 2vw;
+    align-items: center;
+    font-size: 3.5vw;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    grid-row: 13 / 15;
+    grid-column: 2 / 8;
+    font-weight: 550;
+}
+.profileContainer h3 {
+    background-color: rgb(233, 233, 233);
+    border-radius: 2vw;
+    align-items: center;
+    font-size: 2vw;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    grid-row: 17 / 19;
+    grid-column: 2 / 8;
+}
+
+.profileContainer .profilePic {
+    grid-row: 2 / 11;
+    grid-column:2 / 8 ;
+    border-radius: 2vw;
+    overflow: hidden;
+}
+
+.profileContainer .profilePic img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profileInfo {
+    background-color: white;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+    -moz-box-shadow: rgba(0,0,0,0.3) 0 1px 3px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+    text-align: center;
+    border-radius: 1.5vw;
+    grid-row: 2 / 20;
+    grid-column: 9 / 20;
+}
+
+.profileContainer .bio {
+    background: #3c37e3;
+    background: radial-gradient(at center, #67b7d7, #cfdffe);
+    -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+    -moz-box-shadow: rgba(0,0,0,0.3) 0 1px 3px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+    font-size: 3.5vw;
+    font-weight: 500;
+    padding: 1.5vw;
+    border-radius: 2vw;
+    grid-row: 6 / 19;
+    grid-column: 10 / 19;
+    text-align: center;
+}
+
+.profileContainer .bio h3 {
+    background-color: white;
+    font-size: 2.8vw;
+    height: 10%;
+    width: 60%;
+    border-radius: 2vw;
+    font-weight: 600;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+    margin: auto;
+    margin-bottom: 1%;
+
+}
+
+.bio #bioForm {
+    width: 100%;
+    font-size: 2.2vw;
+    height: 80%;
+    border-radius: 1.5vw;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+    border-color: white;
+}
+.profileContainer .favGame {
+    background-color: rgb(255, 255, 255);
+    font-weight: 650;
+    padding-left: 1vw;
+    border-radius: 1.5vw;
+    grid-row: 4;
+    grid-column: 10 / 19;
+    font-size: 1.5vw;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+    -moz-box-shadow: rgba(0,0,0,0.3) 0 1px 3px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+    border: 1px solid grey;
+}
+textarea {
+    width: 100%;
+    height: 100%;
+    border-radius: 1.5vw;
+    font-size: 1.8vw;
+    border: none;
+}
+
+#updateBioButton {
+    font-size: 1.5vw;
+    height: 10%;
+}
+
+#changePic {
+    z-index: 100;
+    grid-row: 11 / 12;
+    grid-column: 2 / 8;
+    font-size: 1.6vw;
+    padding-bottom: 8%;
+    width: 80%;
+    margin: 3% auto 0 auto;
+    background: linear-gradient(135deg, #007bff, #00d2ff)
+}
+
+#changeName {
+    grid-row: 15 / 16;
+    grid-column: 2 / 8;
+    font-size: 1.6vw;
+    align-items:  center;
+    padding-bottom: 8%;
+    width: 80%;
+    margin: 0 auto 0 auto;
+    background: linear-gradient(135deg, #007bff, #00d2ff)
+}
+
+#changeEmail {
+    grid-row: 19;
+    grid-column: 2 / 8;
+    font-size: 1.6vw;
+    align-items:  center;
+    padding-bottom: 8%;
+    width: 80%;
+    margin: 0 auto 0 auto;
+    background: linear-gradient(135deg, #007bff, #00d2ff)
+}
+
+#changeFavGame {
+    border-radius: 1.5vw;
+    grid-row: 4;
+    grid-column: 18;
+    font-size: 1.4vw;
+    padding-bottom: 10%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(135deg, #007bff, #00d2ff)
+}
+
+.modal-dialog {
+    margin-top: 20%;
+}
+
+@media only screen and (max-width: 770px) {
+    .profileContent {
+        padding: 1vw;
+        min-height: 70vh;
+        height: 100vh;
+        padding-bottom: none;
+    }
+    
+    body {
+        background: #87CEEB;
+        background: radial-gradient(at center, #87CEEB, #FFFFFF);
+    }
+    
+    .profileContainer {
+        height: 100%;
+        width: 100%;
+        background-color: rgba(160, 160, 160, 0.47);
+        display: grid;
+        grid-template-rows: repeat(20, 5%);
+        grid-template-columns: repeat(20, 5%);
+        border: 2px solid white;
+        border-radius: 20px;
+        
+    }
+    
+    .profileContainer h1 {
+        color: black;
+        font-size: 7vw;
+        font-weight: 600;
+        margin-top: 1%;
+    }
+    
+    .profileContainer h2 {
+        background-color: rgb(255, 255, 255);
+        border-radius: 2vw;
+        font-size: 4vw;
+        text-align: left;
+        display: flex;
+        justify-content: left;
+        padding-left: 5%;
+        grid-row: 7;
+        grid-column: 4 / 18;
+        font-weight: 550;
+        height: 100%;
+        margin-top: 3%;
+    }
+    .profileContainer h3 {
+        background-color: rgb(233, 233, 233);
+        border-radius: 2vw;
+        align-items: center;
+        font-size: 4vw;
+        display: flex;
+        justify-content: left;
+        text-align: left;
+        padding-left: 5%;
+        font-weight: 550;
+        grid-row: 8;
+        grid-column: 4 / 18;
+        height: 100%;
+        margin-top: 4%;
+    }
+    
+    .profileContainer .profilePic {
+        grid-row: 1 / 7;
+        grid-column:5 / 17 ;
+        border-radius: 2vw;
+        overflow: hidden;
+    }
+    
+    .profileContainer .profilePic img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .profileInfo {
+        background-color: white;
+        -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+        -moz-box-shadow: rgba(0,0,0,0.3) 0 1px 3px;
+        box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+        text-align: center;
+        border-radius: 5vw;
+        grid-row: 9 / 20;
+        grid-column: 2 / 20;
+        margin-top: 5%;
+    }
+    
+    .profileContainer .bio {
+        background: #3c37e3;
+        background: radial-gradient(at center, #67b7d7, #cfdffe);
+        -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+        -moz-box-shadow: rgba(0,0,0,0.3) 0 1px 3px;
+        box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+        font-size: 3.5vw;
+        font-weight: 500;
+        padding: 1.5vw;
+        border-radius: 2vw;
+        grid-row: 12 / 20;
+        grid-column: 3 / 19;
+        text-align: center;
+    }
+    
+    .profileContainer .bio h3 {
+        background-color: white;
+        font-size: 3.8vw;
+        height: 10%;
+        width: 60%;
+        border-radius: 2vw;
+        font-weight: 600;
+        box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+        padding: 0;
+        margin-bottom: 1%;
+        display: flex;
+        justify-content: center;
+    
+    }
+    
+    .bio #bioForm {
+        width: 100%;
+        font-size: 2.2vw;
+        height: 80%;
+        border-radius: 1.5vw;
+        box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+        border-color: white;
+    }
+    .profileContainer .favGame {
+        background-color: rgb(255, 255, 255);
+        font-weight: 650;
+        padding-left: 1vw;
+        border-radius: 1.5vw;
+        grid-row: 11;
+        grid-column: 3 / 19;
+        font-size: 4vw;
+        text-align: left;
+        -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+        -moz-box-shadow: rgba(0,0,0,0.3) 0 1px 3px;
+        box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+        border: 1px solid grey;
+        height: 80%;
+    }
+    textarea {
+        width: 100%;
+        height: 100%;
+        border-radius: 1.5vw;
+        font-size: 2.8vw;
+        border: none;
+    }
+    
+    #updateBioButton {
+        font-size: 1.5vw;
+        height: 10%;
+    }
+    
+    #changePic {
+        z-index: 100;
+        grid-row: 6 / 7;
+        grid-column: 14 / 17;
+        font-size: 2vw;
+        width: 100%;
+        font-weight: 700;
+        border-radius: 20%;
+        padding: none;
+        text-align: center;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+    
+    #changeName {
+        grid-row: 7;
+        grid-column: 13 / 18;
+        font-size: 2.8vw;
+        font-weight: 650;
+        align-items:  center;
+        padding: 0;
+        width: 90%;
+        height: 70%;
+        margin: 13% 0 auto 0;
+    }
+    
+    #changeEmail {
+        grid-row: 8;
+        grid-column: 13 / 18;
+        font-size: 2.8vw;
+        font-weight: 650;
+        align-items:  center;
+        padding-bottom: 8%;
+        width: 90%;
+        height: 70%;
+        margin: 17% 0 auto 0;
+        padding: 0;
+    }
+    
+    #changeFavGame {
+        border-radius: 1.5vw;
+        grid-row: 11;
+        grid-column: 17 / 19;
+        font-size: 2.4vw;
+        padding-bottom: 10%;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        height: 80%;
+    }
+}
+@media only screen and (max-width: 500px) {
+    #changePic {
+        font-size: 3vw;
+        
+    }
+}
+
+@media only screen and (min-width: 1350px) {
+    .profileInfo h1 {
+        font-size: 3vw;
+        margin-top: 0;
+    }
+}

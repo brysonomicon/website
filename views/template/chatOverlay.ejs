@@ -1,0 +1,30 @@
+<button id="toggle-chat-overlay">Chat</button>
+
+<div id="friends-chat-overlay">
+  <div id="friends-list-container">
+    <h2>Friends</h2>
+    <form id="add-friend-form">
+      <input type="email" name="friend-email" placeholder="Enter friend's email" required>
+      <button type="submit" data-button="add-friend">Add Friend</button>
+    </form>
+    <ul id="friends-list" style="text-align: left;"></ul>
+  </div>
+
+  <!-- Chat Modal -->
+  <div id="chat-modal">
+    <h2>Chat</h2>
+    <ul id="chat-room-id"></ul>
+    <p id="typing-indicator"></p>
+    <form id="chat-form">
+      <input type="text" id="chat-input" placeholder="Type a message" required>
+      <button type="submit" data-button="send-message">Send</button>
+    </form>
+    <button data-button="close" onclick="document.getElementById('chat-modal').style.display='none'">Close</button>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const userId = "<%= userId %>";
+</script>
+<script src="/js/friends.js"></script>
