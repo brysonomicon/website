@@ -8,21 +8,24 @@
   <link rel="stylesheet" href="/css/overlay.css" />
   <link rel="stylesheet" href="/css/calendar.css" />
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+  </style>
 </head>
 
 <body>
   <header>
     <nav class="nav">
       <div class="nav__logo">
-        <a href="/">Bryson</a>
+        <a href="/"><img src="/images/logoss.png" href="/" /></a>
       </div>
       <div class="nav__menu">
-        <a href="/">Home</a>
-        <a href="/signup">Signup</a>
-        <a href="/login">Login</a>
-        <a href="/calendar">Calendar</a>
-        <a href="/settings">Settings</a>
+        <% navLinks.forEach(link => { %>
+          <a href="<%= link.link %>" class="<%= currentPath === link.link ? 'active' : '' %>"><%= link.name %></a>
+        <% }) %>
       </div>
     </nav>
   </header>
   <script src="/js/settings.js"></script>
+</body>
+</html>

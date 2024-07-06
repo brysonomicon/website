@@ -1,25 +1,28 @@
 :root {
     --background-color: #f0f0f0;
-    --primary-color: #007bff;
+    --primary-color: linear-gradient(180deg, rgb(30, 60, 150), rgb(70, 70, 70));
     --secondary-color: #6c757d;
     --text-color: #333;
-    --link-hover-color: #0056b3;
+    --link-hover-color: #cc7400;
   }
   
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Nunito Sans', sans-serif;
   }
   
   body {
-    background-color: var(--background-color);
     color: var(--text-color);
+    font-family: "Source Code Pro", monospace;
+    font-optical-sizing: auto;
+    font-weight: 375;
+    font-style: normal;
+    background-size: cover;
   }
   
   header {
-    background-color: var(--primary-color);
+    background-image: var(--primary-color);
     padding: 10px 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
@@ -53,9 +56,15 @@
   header .nav__menu a:hover {
     background-color: var(--link-hover-color);
   }
+
+  header .nav__menu a.active {
+    background-color: var(--link-hover-color);
+    font-weight: bold;
+  }
+  
   
   footer {
-    background-color: var(--primary-color);
+    background-image: var(--primary-color);
     color: #fff;
     text-align: center;
     padding: 10px 20px;
@@ -79,16 +88,18 @@
   }
   
   button {
-    background-color: var(--primary-color);
+    background-image: var(--primary-color);
     color: #fff;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-image 0.3s;
   }
   
   button:hover {
     background-color: var(--link-hover-color);
   }
+  
+
   

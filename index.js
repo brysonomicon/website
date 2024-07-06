@@ -15,8 +15,6 @@ const passResetRoutes = require("./routes/resetRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const friendRoutes = require("./routes/friendRoutes");
 const MongoClient = require("mongodb").MongoClient;
-const cloudinary = require("cloudinary").v2;
-const fileUpload = require("express-fileupload");
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const eventRoutes = require('./routes/events');
@@ -48,8 +46,6 @@ const client = new MongoClient(mongo_uri, {
   useUnifiedTopology: true,
 });
 
-const server = require("http").Server(app);
-
 client.connect((err) => {
   if (err) {
     console.error("Failed to connect to MongoDB", err);
@@ -71,6 +67,8 @@ const sessionCollection = MongoStore.create({
   },
 });
 
+// passed to initializeSocket to create real-time chat server
+const server = require("http").Server(app);
 const sessionMiddleware = session({
   secret: node_secret,
   store: sessionCollection,
@@ -80,6 +78,7 @@ const sessionMiddleware = session({
     maxAge: sessionExpiry,
   },
 });
+const io = initializeSocket(server, sessionMiddleware);
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -136,18 +135,10 @@ passport.use(
   )
 );
 
-app.use(
-  fileUpload({
-    useTempFiles: true,
-    tempFileDir: "/tmp/",
-  })
-);
-
-const io = initializeSocket(server, sessionMiddleware);
-
 const navLinks = [
-  { name: "Video Call", link: "/videocall" },
+  { name: "Home", link: "/" },
   { name: "Calendar", link: "/calendar" },
+  { name: "Settings", link: "/settings" },
   { name: "Logout", link: "/logout" },
 ];
 
@@ -155,7 +146,7 @@ app.locals.navLinks = navLinks;
 
 app.use((req, res, next) => {
   // console.log(`Received request for ${req.url}`);
-  app.locals.currentUrl = url.parse(req.url).pathname;
+  res.locals.currentPath = req.path;
   res.locals.userId = req.session.userId;
   next();
 });
@@ -361,39 +352,8 @@ app.get("/api/friends", catchAsync(async (req, res) => {
   }
 }));
 
-app.get("/chat", catchAsync(async (req, res) => {
-  if (!req.session.userId) {
-    return res.redirect("/login");
-  }
-
-  try {
-    const user = await User.findById(req.session.userId);
-    if (!user) {
-      console.error(`User not found: ${req.session.userId}`);
-      return res.redirect("/login");
-    }
-
-    console.log(`User ${user.email} accessing /chat`);
-
-    res.render("chatroom", {
-      loadChatScript: true,
-    });
-  } catch (error) {
-    console.error("Error accessing chat:", error);
-    res.status(500).send("Internal Server Error");
-  }
-}));
-
 app.get("/calendar", (req, res) => {
   res.render('calendar', { userId: req.session.userId, userEmail: req.session.email });
-});
-
-app.get("/terms-of-service", (req, res) => {
-  res.render("termsOfService");
-});
-
-app.get("/privacy-policy", (req, res) => {
-  res.render("privacyPolicy");
 });
 
 app.get("/error", (req, res) => {
