@@ -24,7 +24,6 @@ const path = require('path');
 
 const mongo_secret = process.env.MONGODB_SESSION_SECRET;
 const node_secret = process.env.NODE_SESSION_SECRET;
-const cloudinary_secret = process.env.CLOUDINARY_SECRET;
 const google_client_id = process.env.GOOGLE_CLIENT_ID;
 const google_client_secret = process.env.GOOGLE_CLIENT_SECRET;
 const google_callback_url =
@@ -49,15 +48,7 @@ const client = new MongoClient(mongo_uri, {
   useUnifiedTopology: true,
 });
 
-cloudinary.config({
-  cloud_name: "defvzhd9k",
-  api_key: "422958868577472",
-  api_secret: cloudinary_secret,
-});
-
-//for the video call server
 const server = require("http").Server(app);
-const { v4: uuidV4 } = require("uuid");
 
 client.connect((err) => {
   if (err) {
@@ -69,7 +60,6 @@ client.connect((err) => {
 });
 
 const userCollection = client.db(mongo_database).collection("users");
-const gameCollection = client.db(mongo_database).collection("games");
 
 const User = require("./models/user");
 
@@ -80,8 +70,6 @@ const sessionCollection = MongoStore.create({
     secret: mongo_secret,
   },
 });
-
-app.use("/js", express.static("./public/js"));
 
 const sessionMiddleware = session({
   secret: node_secret,
@@ -339,224 +327,6 @@ app.get("/logout", (req, res) => {
   res.render("logout");
 });
 
-app.get("/profile", catchAsync(async (req, res) => {
-  if (req.session.authenticated) {
-    let username = req.session.username;
-
-    //get user info from database
-    const userInfo = await userCollection
-      .find({ username: username })
-      .project({ name: 1, email: 1, favGame: 1, bio: 1, pfp: 1 })
-      .toArray();
-    console.log(userInfo);
-
-    //check bio and if empty/whitespace, send example message. Else, send user's bio from database
-    let bio = userInfo[0].bio;
-    if (bio === "" || /^\s*$/.test(bio)) {
-      bio = "Add bio here...";
-    }
-
-    //if profile picture is blank, send a stock profile photo image
-    let pfp = userInfo[0].pfp;
-    if (!pfp || pfp === "") {
-      pfp =
-        "https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg";
-    }
-    console.log("pfp: " + pfp);
-
-    res.render("profile", {
-      username: username,
-      email: userInfo[0].email,
-      favGame: userInfo[0].favGame,
-      bio: bio,
-      pfp: pfp,
-    });
-  } else {
-    res.redirect("/login");
-  }
-}));
-
-app.post("/bioSubmit", catchAsync(async (req, res) => {
-  let bio = req.body.bio;
-
-  //submit new bio to database using $set
-  await userCollection.updateOne(
-    { username: req.session.username },
-    { $set: { bio: bio } }
-  );
-  res.redirect("/profile");
-}));
-
-app.post("/usernameSubmit", catchAsync(async (req, res) => {
-  let name = req.body.username;
-
-  //submit new username to the database
-  await userCollection.updateOne(
-    { username: req.session.username },
-    { $set: { username: name } }
-  );
-  req.session.username = name;
-  res.redirect("/profile");
-}));
-
-app.post("/emailSubmit", catchAsync(async (req, res) => {
-  let newEmail = req.body.email;
-
-  //submit new email to the database
-  await userCollection.updateOne(
-    { username: req.session.username },
-    { $set: { email: newEmail } }
-  );
-  res.redirect("/profile");
-}));
-
-app.post("/favGameSubmit", catchAsync(async (req, res) => {
-  let newFavGame = req.body.favGame;
-
-  //submit new favourite game to the database
-  await userCollection.updateOne(
-    { username: req.session.username },
-    { $set: { favGame: newFavGame } }
-  );
-  res.redirect("/profile");
-}));
-
-//from "change profile picture" button on profile.ejs"
-app.post("/pfpSubmit", catchAsync(async (req, res) => {
-
-  //check if file submitted
-  if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(400).send("No files were uploaded.");
-  }
-
-  //get file from the request object (file that user chose and submitted on profile.ejs)
-  const file = req.files.pfp;
-
-  //upload the file from the temporary filepath to the cloudinary server, automatically cropping the img to square aspect ratio
-  cloudinary.uploader.upload(
-    file.tempFilePath,
-    {
-      folder: "profile_pictures",
-      public_id: `${req.session.username}_pfp`,
-      overwrite: true,
-      crop: 'auto',
-      gravity: 'auto',
-      width: 500,
-      height: 500,
-    },
-    (err, result) => {
-      if (err) {
-        return res
-          .status(500)
-          .send({ message: "Upload failed", error: err.message });  
-      }
-
-      
-
-      const pfpUrl = result.secure_url;
-
-      //send photo url to database stored as a string
-      userCollection
-        .updateOne(
-          { username: req.session.username },
-          { $set: { pfp: pfpUrl } }
-        )
-        .then(() => {
-          res.redirect("/profile");
-        })
-        .catch((err) => {
-          res
-            .status(500)
-            .send({ message: "Database update failed", error: err.message });
-        });
-    }
-  );
-}));
-
-//route for submitting one of the default profile pictures on profile.ejs change picture modal"
-app.get("/defaultSubmit", async (req, res) => {
-
-  //find the default photo using query params
-  let image = req.query.image + ".jpg";
-  const file = path.join(__dirname, 'public/images', image);
-
-  //similarily to /pfpsubmit, upload the default photo to the cloudinary server
-  cloudinary.uploader.upload(
-    file,
-    {
-      folder: "profile_pictures",
-      public_id: `${req.session.username}_pfp`,
-      overwrite: true,
-    },
-    (err, result) => {
-      if (err) {
-        return res
-          .status(500)
-          .send({ message: "Upload failed", error: err.message });
-      }
-
-      const pfpUrl = result.secure_url;
-
-      userCollection
-        .updateOne(
-          { username: req.session.username },
-          { $set: { pfp: pfpUrl } }
-        )
-        .then(() => {
-          res.redirect("/profile");
-        })
-        .catch((err) => {
-          res
-            .status(500)
-            .send({ message: "Database update failed", error: err.message });
-        });
-    }
-  )
-});
-
-app.get("/games", (req, res) => {
-  res.render("games");
-});
-
-app.get("/gameJigsawHub", (req, res) => {
-  res.render("gameJigsawHub");
-});
-
-app.get("/gameSudokuHub", (req, res) => {
-  res.render("gameSudokuHub");
-});
-
-app.get("/gameSudokuPlay", (req, res) => {
-  res.render("gameSudokuPlay");
-});
-
-app.get("/gamesSpecific", catchAsync(async (req, res) => {
-  //get game name from query params
-  let gamename = req.query.game;
-  gamename = gamename.charAt(0).toUpperCase() + gamename.slice(1);
-  
-  //game title is the capitlized name for displaying on gamesSpecific.ejs
-  let gameTitle = gamename.charAt(0).toUpperCase() + gamename.slice(1);
-
-  //find gameInfo using capitalized gamename
-  const gameInfo = await gameCollection
-    .find({ name: gamename })
-    .project({ name: 1, desc: 1, _id: 1, link: 1, rules: 1 })
-    .toArray();
-
-  //gamename goes back to lowercase so it can be used to reference files
-  gamename = req.query.game;
-
-
-  res.render("gamesSpecific", {
-    gameTitle: gameTitle,
-    gamename: gamename,
-    desc: gameInfo[0].desc,
-    link: gameInfo[0].link,
-    rules: gameInfo[0].rules,
-  });
-}));
-
 app.get("/api/friends", catchAsync(async (req, res) => {
   try {
     const friendsCollection = client.db(mongo_database).collection("friendships");
@@ -591,11 +361,6 @@ app.get("/api/friends", catchAsync(async (req, res) => {
   }
 }));
 
-
-app.get("/social", (req, res) => {
-  res.render("social");
-});
-
 app.get("/chat", catchAsync(async (req, res) => {
   if (!req.session.userId) {
     return res.redirect("/login");
@@ -619,39 +384,8 @@ app.get("/chat", catchAsync(async (req, res) => {
   }
 }));
 
-app.get("/gameCheckersHub", (req, res) => {
-  res.render("gameCheckersHub");
-});
-
-app.get("/gameBingoHub", (req, res) => {
-  res.render("gameBingoHub");
-});
-
-app.get("/gameJigsawPlay", (req, res) => {
-  res.render("gameJigsawPlay");
-});
-
-app.get("/gameCheckersPlay", (req, res) => {
-  res.render("gameCheckersPlay");
-});
-
-app.get("/gameBingoPlay", (req, res) => {
-  res.render("gameBingoPlay");
-});
-
 app.get("/calendar", (req, res) => {
   res.render('calendar', { userId: req.session.userId, userEmail: req.session.email });
-});
-
-app.get("/videocall", (req, res) => {
-  const roomId = uuidV4();
-  console.log(`Redirecting to /videocall/${roomId}`);
-  res.redirect(`/videocall/${roomId}`);
-});
-
-app.get("/videocall/:room", (req, res) => {
-  console.log(`Rendering room with ID: ${req.params.room}`);
-  res.render("room", { roomId: req.params.room });
 });
 
 app.get("/terms-of-service", (req, res) => {
