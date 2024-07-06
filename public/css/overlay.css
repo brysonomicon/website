@@ -8,9 +8,9 @@
   z-index: 1000;
   padding: 20px;
   transform: translateY(100%); 
-  transition: transform 1s ease !important; 
+  transition: transform 1s ease; 
   height: 100%;
-  opacity: 1!important; 
+  opacity: 1; 
   pointer-events: none; 
 }
 
@@ -24,9 +24,9 @@
   content: '💬';
   font-size: 24px;
   display: block;
-  line-height: 50px; /* Match the height of the button to center vertically */
+  line-height: 50px; 
   text-align: center;
-  margin: 0; /* Ensure no margin around the icon */
+  margin: 0; 
 }
 
 #friends-chat-overlay.show {
@@ -50,7 +50,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0; /* Remove any padding */
+  padding: 0; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
 }
 
   
