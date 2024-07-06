@@ -23,9 +23,10 @@
 #toggle-chat-overlay::before {
   content: '💬';
   font-size: 24px;
-  line-height: 53px;
   display: block;
+  line-height: 50px; /* Match the height of the button to center vertically */
   text-align: center;
+  margin: 0; /* Ensure no margin around the icon */
 }
 
 #friends-chat-overlay.show {
@@ -33,20 +34,25 @@
   opacity: 1;
   pointer-events: auto; 
 }
-  
-  #toggle-chat-overlay {
-    position: fixed;
-    bottom: 7px;
-    right: 7px;
-    width: 50px;
-    height: 50px;
-    background: #007bff;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 1001;
-  }
+
+#toggle-chat-overlay {
+  position: fixed;
+  bottom: 7px;
+  right: 7px;
+  width: 50px;
+  height: 50px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1001;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0; /* Remove any padding */
+}
+
   
   #friends-list-container {
     margin-bottom: 20px;
