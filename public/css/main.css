@@ -1,9 +1,10 @@
 :root {
     --background-color: #f0f0f0;
-    --primary-color: linear-gradient(180deg, rgb(30, 60, 150), rgb(70, 70, 70));
+    --primary-color: linear-gradient(180deg, #1e3c96, #6e6e6e);
     --secondary-color: #6c757d;
     --text-color: #333;
-    --link-hover-color: #cc7400;
+    --link-hover-color: linear-gradient(180deg, #cc9f64, #cc7400);
+    --text-color-header: #f0f0f0;
   }
   
   * {
@@ -46,7 +47,7 @@
   }
   
   header .nav__menu a {
-    color: #fff;
+    color: var(--text-color-header);
     text-decoration: none;
     padding: 5px 10px;
     border-radius: 5px;
@@ -54,18 +55,18 @@
   }
   
   header .nav__menu a:hover {
-    background-color: var(--link-hover-color);
+    background: var(--link-hover-color);
   }
 
   header .nav__menu a.active {
-    background-color: var(--link-hover-color);
+    background: var(--link-hover-color);
     font-weight: bold;
   }
   
   
   footer {
-    background-image: var(--primary-color);
-    color: #fff;
+    background: white;
+    color: black;
     text-align: center;
     padding: 10px 20px;
     position: fixed;
