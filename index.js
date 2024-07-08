@@ -355,7 +355,7 @@ app.get("/api/friends", catchAsync(async (req, res) => {
         console.error("Error fetching user:", err);
       }
       return friend;
-    }));
+    })); 
 
     console.log("Final friends list with pfp:", friendsWithPfp);
     res.json(friendsWithPfp);
