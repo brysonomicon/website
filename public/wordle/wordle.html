@@ -10,12 +10,13 @@
             preRun: [],
             postRun: [],
             onRuntimeInitialized: function() {
+                console.log('Runtime initialized');
                 startGame();
                 document.getElementById('submitButton').disabled = false;
             },
             print: function(text) {
                 if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
-                console.log(text);
+                console.log('Output:', text); // Debugging output
                 var outputElement = document.getElementById('output');
                 if (outputElement) {
                     outputElement.value += text + "\n";
@@ -24,7 +25,7 @@
             },
             printErr: function(text) {
                 if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
-                console.error(text);
+                console.error('Error:', text); // Debugging output
             },
             setStatus: function(text) {
                 if (!Module.setStatus.last) Module.setStatus.last = { time: Date.now(), text: '' };
@@ -40,6 +41,13 @@
                 this.totalDependencies = Math.max(this.totalDependencies, left);
             }
         };
+
+        function clearOutput() {
+            var outputElement = document.getElementById('output');
+            if (outputElement) {
+                outputElement.value = '';
+            }
+        }
 
         function submitGuess() {
             var input = document.getElementById('guessInput').value;

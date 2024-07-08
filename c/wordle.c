@@ -87,6 +87,7 @@ void processGuess(const char* guess) {
 EMSCRIPTEN_KEEPALIVE
 void startGame() {
     resetGame();
+    emscripten_run_script("clearOutput()"); // Clear the output window
     displayBoard();
 }
 
@@ -97,7 +98,6 @@ void guess(const char* input) {
 
 int main() {
     startGame();
-    return 0;
 }
 
 void updateDisplay(char* display, const char* key, const char* guess) {

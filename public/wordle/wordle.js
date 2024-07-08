@@ -986,8 +986,6 @@ function dbg(...args) {
 
   var _emscripten_date_now = () => Date.now();
 
-  var printCharBuffers = [null,[],[]];
-  
   var UTF8Decoder = typeof TextDecoder != 'undefined' ? new TextDecoder() : undefined;
   
     /**
@@ -1041,25 +1039,6 @@ function dbg(...args) {
       }
       return str;
     };
-  var printChar = (stream, curr) => {
-      var buffer = printCharBuffers[stream];
-      assert(buffer);
-      if (curr === 0 || curr === 10) {
-        (stream === 1 ? out : err)(UTF8ArrayToString(buffer, 0));
-        buffer.length = 0;
-      } else {
-        buffer.push(curr);
-      }
-    };
-  
-  var flush_NO_FILESYSTEM = () => {
-      // flush anything remaining in the buffers during shutdown
-      _fflush(0);
-      if (printCharBuffers[1].length) printChar(1, 10);
-      if (printCharBuffers[2].length) printChar(2, 10);
-    };
-  
-  
   
     /**
      * Given a pointer 'ptr' to a null-terminated UTF8-encoded string in the
@@ -1080,6 +1059,31 @@ function dbg(...args) {
       assert(typeof ptr == 'number', `UTF8ToString expects a number (got ${typeof ptr})`);
       return ptr ? UTF8ArrayToString(HEAPU8, ptr, maxBytesToRead) : '';
     };
+  var _emscripten_run_script = (ptr) => {
+      eval(UTF8ToString(ptr));
+    };
+
+  var printCharBuffers = [null,[],[]];
+  
+  var printChar = (stream, curr) => {
+      var buffer = printCharBuffers[stream];
+      assert(buffer);
+      if (curr === 0 || curr === 10) {
+        (stream === 1 ? out : err)(UTF8ArrayToString(buffer, 0));
+        buffer.length = 0;
+      } else {
+        buffer.push(curr);
+      }
+    };
+  
+  var flush_NO_FILESYSTEM = () => {
+      // flush anything remaining in the buffers during shutdown
+      _fflush(0);
+      if (printCharBuffers[1].length) printChar(1, 10);
+      if (printCharBuffers[2].length) printChar(2, 10);
+    };
+  
+  
   var SYSCALLS = {
   varargs:undefined,
   getStr(ptr) {
@@ -1324,6 +1328,8 @@ var wasmImports = {
   _emscripten_memcpy_js: __emscripten_memcpy_js,
   /** @export */
   emscripten_date_now: _emscripten_date_now,
+  /** @export */
+  emscripten_run_script: _emscripten_run_script,
   /** @export */
   fd_write: _fd_write
 };
