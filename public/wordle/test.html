@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wordle Game</title>
+</head>
+<body>
+    <h1>Wordle Game</h1>
+    <textarea id="output" rows="20" cols="50" readonly></textarea><br>
+    <input type="text" id="guessInput" maxlength="5">
+    <button id="submitButton">Submit Guess</button>
+    <script src="wordle.js"></script>
+    <script>
+        var Module = {
+            preRun: [],
+            postRun: [],
+            onRuntimeInitialized: function() {
+                startGame();
+                document.getElementById('submitButton').disabled = false;
+            },
+            print: function(text) {
+                if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+                console.log(text);
+                var outputElement = document.getElementById('output');
+                if (outputElement) {
+                    outputElement.value += text + "\n";
+                    outputElement.scrollTop = outputElement.scrollHeight;
+                }
+            },
+            printErr: function(text) {
+                if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+                console.error(text);
+            },
+            canvas: (function() {
+                var canvas = document.createElement('canvas');
+                return canvas;
+            })(),
+            setStatus: function(text) {
+                if (!Module.setStatus.last) Module.setStatus.last = { time: Date.now(), text: '' };
+                if (text === Module.setStatus.last.text) return;
+                var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
+                var now = Date.now();
+                if (m && now - Module.setStatus.last.time < 30) return;
+                Module.setStatus.last.time = now;
+                Module.setStatus.last.text = text;
+            },
+            totalDependencies: 0,
+            monitorRunDependencies: function(left) {
+                this.totalDependencies = Math.max(this.totalDependencies, left);
+            }
+        };
+
+        function submitGuess() {
+            var input = document.getElementById('guessInput').value;
+            if (input.length === 5) {
+                Module.ccall('guess', 'void', ['string'], [input]);
+                document.getElementById('guessInput').value = '';
+            } else {
+                alert('Please enter a 5-letter word.');
+            }
+        }
+
+        function startGame() {
+            Module.ccall('startGame', 'void', []);
+        }
+
+        window.onload = function() {
+            var script = document.createElement('script');
+            script.src = 'wordle.js';
+            document.body.appendChild(script);
+            document.getElementById('submitButton').disabled = true;
+        };
+
+        document.getElementById('submitButton').addEventListener('click', submitGuess);
+    </script>
+</body>
+</html>

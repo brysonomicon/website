@@ -1,8 +1,11 @@
+/* SERVER SETUP */
 const express = require("express");
 const app = express();
 require("dotenv").config();
+const path = require('path');
+const { execFile } = require('child_process');
+const { exec } = require('child_process');
 const PORT = process.env.PORT || 8000;
-const url = require("url");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const bcrypt = require("bcrypt");
@@ -10,15 +13,16 @@ const saltRounds = 12;
 const sessionExpiry = 24 * 60 * 60 * 1000;
 const Joi = require("joi");
 const mongoose = require("mongoose");
+const MongoClient = require("mongodb").MongoClient;
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+
+/* MODULE IMPORTS */
 const initializeSocket = require("./socket");
 const passResetRoutes = require("./routes/resetRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const friendRoutes = require("./routes/friendRoutes");
-const MongoClient = require("mongodb").MongoClient;
-const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const eventRoutes = require('./routes/events');
-const path = require('path');
 
 const mongo_secret = process.env.MONGODB_SESSION_SECRET;
 const node_secret = process.env.NODE_SESSION_SECRET;
@@ -82,6 +86,7 @@ const io = initializeSocket(server, sessionMiddleware);
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(sessionMiddleware);
@@ -137,6 +142,7 @@ passport.use(
 
 const navLinks = [
   { name: "Home", link: "/" },
+  { name: "Games", link: "/games" },
   { name: "Calendar", link: "/calendar" },
   { name: "Settings", link: "/settings" },
   { name: "Logout", link: "/logout" },
@@ -159,6 +165,13 @@ app.use('/api/events', eventRoutes);
 //Middleware to make the user object available to all templates
 app.use((req, res, next) => {
   res.locals.user = req.session.user; 
+  next();
+});
+
+app.use((req, res, next) => {
+  if (req.url.endsWith('.wasm')) {
+    res.setHeader('Content-Type', 'application/wasm');
+  }
   next();
 });
 
@@ -354,6 +367,14 @@ app.get("/api/friends", catchAsync(async (req, res) => {
 
 app.get("/calendar", (req, res) => {
   res.render('calendar', { userId: req.session.userId, userEmail: req.session.email });
+});
+
+app.get("/games", (req, res) => {
+  res.render('games');
+});
+
+app.get('/run/wordle', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'wordle', 'wordle.html'));
 });
 
 app.get("/error", (req, res) => {
