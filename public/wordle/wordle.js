@@ -39,7 +39,7 @@ if (ENVIRONMENT_IS_NODE) {
 
 // --pre-jses are emitted after the Module integration code, so that they can
 // refer to Module (if they choose; they can also define Module)
-// include: C:\Users\Bryson\AppData\Local\Temp\tmp936091wn.js
+// include: C:\Users\Bryson\AppData\Local\Temp\tmpio3dm58c.js
 
   if (!Module.expectedDataFileDownloads) {
     Module.expectedDataFileDownloads = 0;
@@ -215,25 +215,25 @@ var REMOTE_PACKAGE_SIZE = metadata['remote_package_size'];
     }
 
     }
-    loadPackage({"files": [{"filename": "/words", "start": 0, "end": 89129}], "remote_package_size": 89129});
+    loadPackage({"files": [{"filename": "/words", "start": 0, "end": 103983}], "remote_package_size": 103983});
 
   })();
 
-// end include: C:\Users\Bryson\AppData\Local\Temp\tmp936091wn.js
-// include: C:\Users\Bryson\AppData\Local\Temp\tmpde9q5tfa.js
+// end include: C:\Users\Bryson\AppData\Local\Temp\tmpio3dm58c.js
+// include: C:\Users\Bryson\AppData\Local\Temp\tmp0ttpyr10.js
 
     // All the pre-js content up to here must remain later on, we need to run
     // it.
     if (Module['$ww'] || (typeof ENVIRONMENT_IS_PTHREAD != 'undefined' && ENVIRONMENT_IS_PTHREAD)) Module['preRun'] = [];
     var necessaryPreJSTasks = Module['preRun'].slice();
-  // end include: C:\Users\Bryson\AppData\Local\Temp\tmpde9q5tfa.js
-// include: C:\Users\Bryson\AppData\Local\Temp\tmpcl5swn95.js
+  // end include: C:\Users\Bryson\AppData\Local\Temp\tmp0ttpyr10.js
+// include: C:\Users\Bryson\AppData\Local\Temp\tmpkusqae3c.js
 
     if (!Module['preRun']) throw 'Module.preRun should exist because file support used it; did a pre-js delete it?';
     necessaryPreJSTasks.forEach((task) => {
       if (Module['preRun'].indexOf(task) < 0) throw 'All preRun tasks that exist before user pre-js code should remain after; did you replace Module or modify Module.preRun?';
     });
-  // end include: C:\Users\Bryson\AppData\Local\Temp\tmpcl5swn95.js
+  // end include: C:\Users\Bryson\AppData\Local\Temp\tmpkusqae3c.js
 
 
 // Sometimes an existing Module object exists with properties

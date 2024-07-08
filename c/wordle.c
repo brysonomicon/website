@@ -33,6 +33,8 @@ void resetGame() {
     guessIndex = 0;
     count = 0;
     memset(guesses, 0, sizeof(guesses));
+    printf("Game reset. Key word is: %s\n", key);  // Debugging output
+}
 
 void displayBoard() {
     printf("Guesses: ");
@@ -105,7 +107,7 @@ void loadWords() {
 
     char line[WORD_LENGTH];
     while (fgets(line, sizeof(line), file) && word_count < MAX_WORDS) {
-
+        // Remove newline and carriage return characters
         line[strcspn(line, "\r\n")] = 0;
         if (strlen(line) == WORD_LENGTH - 1) {
             words[word_count] = strdup(line);
@@ -120,7 +122,7 @@ EMSCRIPTEN_KEEPALIVE
 void startGame() {
     loadWords();
     resetGame();
-    emscripten_run_script("clearOutput()"); 
+    emscripten_run_script("clearOutput()"); // Clear the output window
     displayBoard();
 }
 
