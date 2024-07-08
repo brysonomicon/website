@@ -5,44 +5,23 @@
 #include <time.h>
 #include <ctype.h>
 
-#define WORD 100
 #define WORD_LENGTH 6
 #define MAX_GUESSES 20
+#define MAX_WORDS 15000
 
-const char* words[WORD] = 
-{
-    "apple", "bread", "crane", "drake", "eagle",
-    "flame", "grape", "honey", "igloo", "jelly",
-    "kiosk", "lemon", "mango", "ninja", "oasis",
-    "pearl", "quilt", "river", "snake", "tiger",
-    "umbra", "vivid", "whale", "xerox", "yacht",
-    "zebra", "adobe", "brave", "cloud", "dance",
-    "eager", "fable", "giant", "happy", "image",
-    "joint", "knock", "lunar", "medal", "naval",
-    "ocean", "piano", "quark", "royal", "sheep",
-    "trust", "union", "value", "watch", "xerox",
-    "young", "zonal", "angel", "bliss", "creek",
-    "dwarf", "exile", "flora", "globe", "house",
-    "ideal", "jolly", "kneel", "laser", "mirth",
-    "north", "overt", "plume", "quest", "resin",
-    "shine", "thorn", "upper", "vocal", "wheat",
-    "xenon", "yield", "zesty", "amber", "bloom",
-    "charm", "debut", "elbow", "frost", "glade",
-    "haunt", "inbox", "joust", "koala", "limit",
-    "merry", "night", "ovoid", "punch", "quill"
-};
-
+char* words[MAX_WORDS];
 char key[WORD_LENGTH];
 char display[WORD_LENGTH * 3 - 1];
 char guesses[MAX_GUESSES][WORD_LENGTH];
 int guessIndex = 0;
 int count = 0;
+int word_count = 0;
 
 void updateDisplay(char* display, const char* key, const char* guess);
 
 void resetGame() {
     srand(time(NULL));
-    int random = rand() % WORD;
+    int random = rand() % word_count;
     strncpy(key, words[random], WORD_LENGTH - 1);
     key[WORD_LENGTH - 1] = '\0';
 
@@ -54,7 +33,6 @@ void resetGame() {
     guessIndex = 0;
     count = 0;
     memset(guesses, 0, sizeof(guesses));
-}
 
 void displayBoard() {
     printf("Guesses: ");
@@ -67,7 +45,41 @@ void displayBoard() {
     printf("\n%s\n", display);
 }
 
+void toLowerCase(char* str) {
+    for (int i = 0; str[i]; i++) {
+        str[i] = tolower((unsigned char)str[i]);
+    }
+}
+
+int isValidWord(const char* word) {
+    if (strlen(word) != WORD_LENGTH - 1) {
+        return 0;
+    }
+    
+    char lowerWord[WORD_LENGTH];
+    strncpy(lowerWord, word, WORD_LENGTH - 1);
+    lowerWord[WORD_LENGTH - 1] = '\0';
+    toLowerCase(lowerWord);
+
+    for (int i = 0; i < word_count; i++) {
+        char lowerListWord[WORD_LENGTH];
+        strncpy(lowerListWord, words[i], WORD_LENGTH - 1);
+        lowerListWord[WORD_LENGTH - 1] = '\0';
+        toLowerCase(lowerListWord);
+
+        if (strcmp(lowerListWord, lowerWord) == 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 void processGuess(const char* guess) {
+    if (!isValidWord(guess)) {
+        printf("Invalid word!\n");
+        return;
+    }
+
     strncpy(guesses[guessIndex], guess, WORD_LENGTH - 1);
     guesses[guessIndex][WORD_LENGTH - 1] = '\0';
     guessIndex++;
@@ -84,10 +96,31 @@ void processGuess(const char* guess) {
     }
 }
 
+void loadWords() {
+    FILE* file = fopen("words", "rb");
+    if (!file) {
+        printf("Failed to open word list.\n");
+        return;
+    }
+
+    char line[WORD_LENGTH];
+    while (fgets(line, sizeof(line), file) && word_count < MAX_WORDS) {
+
+        line[strcspn(line, "\r\n")] = 0;
+        if (strlen(line) == WORD_LENGTH - 1) {
+            words[word_count] = strdup(line);
+            word_count++;
+        }
+    }
+
+    fclose(file);
+}
+
 EMSCRIPTEN_KEEPALIVE
 void startGame() {
+    loadWords();
     resetGame();
-    emscripten_run_script("clearOutput()"); // Clear the output window
+    emscripten_run_script("clearOutput()"); 
     displayBoard();
 }
 

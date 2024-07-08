@@ -16,7 +16,6 @@
             },
             print: function(text) {
                 if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
-                console.log('Output:', text); // Debugging output
                 var outputElement = document.getElementById('output');
                 if (outputElement) {
                     outputElement.value += text + "\n";
@@ -25,7 +24,7 @@
             },
             printErr: function(text) {
                 if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
-                console.error('Error:', text); // Debugging output
+                console.error('Error:', text); 
             },
             setStatus: function(text) {
                 if (!Module.setStatus.last) Module.setStatus.last = { time: Date.now(), text: '' };
